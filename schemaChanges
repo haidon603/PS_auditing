@@ -1,0 +1,11 @@
+#A change in the Domain schema (logical structure of domain that defines subjetc, objects, computers, groups etc.) could indicate an attack is going on
+#Unauthorized schema changes could point to a rogue AD admin in forest, an attacker running scripts to spread data corruption across the forest, an attacker or admin accidentally installling malcious software on DCs
+
+
+#identify schema
+((Get-ADRootDSE).schemaNamingContext) 
+CN=Schema,CN=Configuration,DC=rootexample,DC=example,DC=com 
+
+# Then Report on Windows Server Active Directory schema changes 
+Get-Adobject -SearchBase ((Get-ADRootDSE).schemaNamingContext) -Filter * -Properties objectClass, name, whenChanged, whenCreated |  
+Select-Object objectClass, name, whenChanged, whenCreated | Sort-Object -Property whenCreated 
