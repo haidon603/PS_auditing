@@ -1,0 +1,7 @@
+$text1 = 'Fname' 
+$text2 = 'LName' 
+
+
+Get-ADGroup -filter * -Properties * | 
+Where-Object {($_.info -match"$text1"-or$_.Description -match"$text1"-or$_.managedBy -match"$text1") -and ($_.info -match"$text2"-or$_.Description -match"$text2"-or$_.managedBy -match"$text2" )}|
+Select-Object Name, Description, info, ManagedBy, CanonicalName, whenCreated, whenChanged 
