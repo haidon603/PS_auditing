@@ -5,3 +5,21 @@ $text2 = 'LName'
 Get-ADGroup -filter * -Properties * | 
 Where-Object {($_.info -match"$text1"-or$_.Description -match"$text1"-or$_.managedBy -match"$text1") -and ($_.info -match"$text2"-or$_.Description -match"$text2"-or$_.managedBy -match"$text2" )}|
 Select-Object Name, Description, info, ManagedBy, CanonicalName, whenCreated, whenChanged 
+
+
+
+#gui version
+
+[void][Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic')
+
+$title1 = 'Approver First Name'
+$msg1 = 'Enter the First Name of the Approver you wish to find mentioned across all AD Groups:'
+$text1 = [Microsoft.VisualBasic.Interaction]::InputBox($msg, $title)
+
+$title2 = 'Approver Last Name'
+$msg2 = 'Enter the Last Name of the Approver you wish to find mentioned across all AD Groups:'
+$text2 = [Microsoft.VisualBasic.Interaction]::InputBox($msg2, $title2)
+
+Get-ADGroup -filter * -Properties * | 
+Where-Object {($_.info -match "$text1" -or $_.Description -match "$text1" -or $_.managedBy -match "$text1") -and ($_.info -match "$text2" -or $_.Description -match "$text2" -or $_.managedBy -match "$text2" )} | 
+Select-Object Name, Description, info, CanonicalName, whenCreated, whenChanged, ManagedBy 
