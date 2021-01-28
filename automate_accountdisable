@@ -1,0 +1,15 @@
+# List here the 'samaccount' names of the accounts you want to exclude 
+$excludedUsers = @('Account1','Account2','Account3') 
+ 
+ 
+Get-ADUser -Filter {enabled -eq $true} -Properties name, Created,Description,lastlogondate,mail,enabled |  
+Where-Object { $_.lastLogonDate -lt (Get-Date).adddays(-90) -and $excludedUsers -notcontains $_.SamAccountName} |select name,lastlogondate|export-Csv "C:\temp\Disabled_Accounts.csv"  
+$user = Import-csv -path "C:\temp\Disabled_Accounts.csv"  
+ 
+ 
+forEach ($user in $user) { 
+ 
+$samAccountName = $user.samAccountName 
+ 
+Disable-ADAccount -Identity $samAccountName 
+} 
