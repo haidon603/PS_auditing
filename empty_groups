@@ -1,0 +1,3 @@
+Get-ADGroup -Filter * -Properties * | 
+where {-not $_.members} | 
+select Name, SamAccountName, ObjectClass
