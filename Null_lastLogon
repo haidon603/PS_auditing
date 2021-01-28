@@ -1,0 +1,3 @@
+(Get-ADUser -LDAPFilter "(&(!lastLogonTimestamp=*)(EMP-IDType=01100))" -Properties * | 
+Select-Object LastLogonDate, Enabled, Name, SamAccountName,  ObjectClass, PasswordExpired, AccountExpirationDate, Emp-IDType, Department | 
+Sort-Object -Property @{Expression = {$_.Enabled}; Ascending = $False})
